@@ -1,7 +1,15 @@
-const SectionHeader = ({ title }) => {
+const SectionHeader = ({ title, description }) => {
   return (
-    <div className="bg-gradient-to-r from-teal-700 to-emerald-500 text-white p-5 rounded-2xl mb-6">
-      <h2 className="text-xl font-bold">{title}</h2>
+    <div className="space-y-2">
+      <h2 className="text-2xl font-bold text-gray-800">
+        {title}
+      </h2>
+
+      {description && (
+        <p className="text-gray-500">
+          {description}
+        </p>
+      )}
     </div>
   );
 };
