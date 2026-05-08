@@ -3,26 +3,28 @@ const QuestionTabs = ({
   activeTab,
   setActiveTab,
 }) => {
+
   return (
-    <div className="flex flex-wrap gap-3">
+
+    <div className="flex gap-4 flex-wrap mb-8">
+
       {tabs.map((tab) => (
+
         <button
           key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`
-            px-5 py-2 rounded-2xl
-            text-sm md:text-base
-            transition-all duration-300
-            ${
-              activeTab === tab
-                ? "bg-teal-600 text-white shadow-lg"
-                : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-            }
-          `}
+          onClick={() =>
+            setActiveTab(tab)
+          }
+          className={`px-6 py-3 rounded-2xl transition font-medium ${
+            activeTab === tab
+              ? "bg-green-700 text-white"
+              : "bg-gray-100"
+          }`}
         >
           {tab}
         </button>
       ))}
+
     </div>
   );
 };

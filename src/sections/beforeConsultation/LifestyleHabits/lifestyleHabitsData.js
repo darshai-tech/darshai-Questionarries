@@ -1,11 +1,26 @@
-export const lifestyleTabs = [
+import {
+  Moon,
+  Dumbbell,
+  Brain,
+  Apple,
+  Droplets,
+} from "lucide-react";
+
+export const lifestyleSections = [
   {
-    id: "sleep",
-    title: "Sleep",
+    id: "lifestyle",
+
+    title: "Lifestyle & Habits",
 
     questions: [
+
       {
-        id: "sleep_1",
+        id: "sleep",
+
+        short: "Sleep",
+
+        icon: Moon,
+
         question:
           "How would you describe your sleep quality?",
 
@@ -17,52 +32,70 @@ export const lifestyleTabs = [
       },
 
       {
-        id: "sleep_2",
+        id: "exercise",
+
+        short: "Exercise",
+
+        icon: Dumbbell,
+
         question:
-          "How many hours do you sleep daily?",
+          "How active are you physically?",
 
         options: [
-          "7-8 Hours",
-          "5-6 Hours",
-          "Less than 5 Hours",
+          "Low Activity",
+          "Moderate",
+          "Highly Active",
         ],
       },
-    ],
-  },
 
-  {
-    id: "stress",
-    title: "Stress",
-
-    questions: [
       {
-        id: "stress_1",
+        id: "stress",
+
+        short: "Stress",
+
+        icon: Brain,
+
         question:
-          "How often do you feel stressed?",
+          "Tell us about your stress levels",
 
         options: [
-          "Rarely",
+          "Rare",
           "Sometimes",
-          "Very Often",
+          "Frequent",
         ],
       },
-    ],
-  },
 
-  {
-    id: "food",
-    title: "Food",
-
-    questions: [
       {
-        id: "food_1",
+        id: "food",
+
+        short: "Food",
+
+        icon: Apple,
+
         question:
-          "How regular are your meal timings?",
+          "How healthy are your eating habits?",
 
         options: [
-          "Very Regular",
-          "Sometimes Irregular",
-          "Completely Irregular",
+          "Very Healthy",
+          "Moderate",
+          "Needs Improvement",
+        ],
+      },
+
+      {
+        id: "hydration",
+
+        short: "Hydration",
+
+        icon: Droplets,
+
+        question:
+          "How much water do you drink daily?",
+
+        options: [
+          "Less than 1L",
+          "1–2 Litres",
+          "More than 3L",
         ],
       },
     ],

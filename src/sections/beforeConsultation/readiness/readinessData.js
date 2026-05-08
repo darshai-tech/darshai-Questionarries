@@ -1,119 +1,108 @@
-export const readinessTabs = [
+import {
+  CheckCircle,
+  Clock,
+  Wallet,
+  Users,
+  CalendarDays,
+} from "lucide-react";
+
+export const readinessSections = [
   {
-    id: "motivation",
-    title: "Motivation",
+    id: "readiness",
+
+    title: "Readiness",
+
+    subtitle:
+      "Tell us about your readiness for change.",
 
     questions: [
       {
-        id: "motivation_1",
+        id: "discipline",
+
+        short: "Discipline",
+
+        icon: CheckCircle,
 
         question:
-          "How motivated are you to improve your health and lifestyle?",
+          "How disciplined are you with routines?",
 
         options: [
-          "Highly Motivated",
-          "Moderately Motivated",
-          "Still Exploring",
+          "Not Disciplined",
+          "Sometimes",
+          "Mostly Consistent",
+          "Very Disciplined",
         ],
       },
 
       {
-        id: "motivation_2",
+        id: "time",
+
+        short: "Time",
+
+        icon: Clock,
 
         question:
-          "How important is long-term wellness for you right now?",
+          "How much time can you dedicate daily?",
 
         options: [
-          "Very Important",
-          "Somewhat Important",
-          "Not a Priority",
-        ],
-      },
-    ],
-  },
-
-  {
-    id: "discipline",
-    title: "Discipline",
-
-    questions: [
-      {
-        id: "discipline_1",
-
-        question:
-          "How confident are you in following a daily wellness routine?",
-
-        options: [
-          "Very Confident",
-          "Need Some Guidance",
-          "Need Strong Support",
+          "<15 Minutes",
+          "15–30 Minutes",
+          "30–60 Minutes",
+          "1+ Hour",
         ],
       },
 
       {
-        id: "discipline_2",
+        id: "budget",
+
+        short: "Budget",
+
+        icon: Wallet,
 
         question:
-          "How consistent are you with habits like sleep, food, or exercise?",
+          "How comfortable are you investing in your health?",
 
         options: [
-          "Very Consistent",
-          "Sometimes Consistent",
-          "Mostly Irregular",
-        ],
-      },
-    ],
-  },
-
-  {
-    id: "barriers",
-    title: "Barriers",
-
-    questions: [
-      {
-        id: "barrier_1",
-
-        question:
-          "What is your biggest challenge in maintaining healthy habits?",
-
-        options: [
-          "Lack of Time",
-          "Stress & Workload",
-          "Lack of Knowledge",
-          "Low Motivation",
+          "Low",
+          "Moderate",
+          "Good",
+          "High",
         ],
       },
 
       {
-        id: "barrier_2",
+        id: "support",
+
+        short: "Support",
+
+        icon: Users,
 
         question:
-          "How supportive is your environment toward your wellness goals?",
+          "How strong is your support system?",
 
         options: [
-          "Very Supportive",
-          "Somewhat Supportive",
-          "Not Supportive",
+          "None",
+          "Limited",
+          "Moderate",
+          "Strong",
         ],
       },
-    ],
-  },
 
-  {
-    id: "timeline",
-    title: "Timeline",
-
-    questions: [
       {
-        id: "timeline_1",
+        id: "consistency",
+
+        short: "Routine",
+
+        icon: CalendarDays,
 
         question:
-          "When do you expect to start seeing health improvements?",
+          "How consistent is your daily schedule?",
 
         options: [
-          "Within 1 Month",
-          "Within 3-6 Months",
-          "Long-Term Transformation",
+          "Very Irregular",
+          "Somewhat Irregular",
+          "Mostly Stable",
+          "Very Stable",
         ],
       },
     ],

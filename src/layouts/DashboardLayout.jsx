@@ -1,9 +1,16 @@
-import React from 'react'
+const DashboardLayout = ({ children }) => {
 
-function DashboardLayout() {
   return (
-    <div>DashboardLayout</div>
-  )
-}
+    <div className="min-h-screen bg-gray-100">
 
-export default DashboardLayout
+      <div className="max-w-7xl mx-auto px-6 py-10">
+
+        {children}
+
+      </div>
+
+    </div>
+  );
+};
+
+export default DashboardLayout;

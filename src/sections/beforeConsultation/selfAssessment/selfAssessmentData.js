@@ -1,13 +1,30 @@
-export const selfAssessmentTabs = [
+import {
+  Target,
+  Heart,
+  Activity,
+  Brain,
+  Sparkles,
+} from "lucide-react";
+
+export const selfAssessmentSections = [
   {
-    id: "goals",
-    title: "Primary Goals",
+    id: "selfAssessment",
+
+    title: "Self Assessment",
+
+    subtitle:
+      "Tell us about your wellness goals.",
 
     questions: [
       {
-        id: "goal_1",
+        id: "goal",
+
+        short: "Goals",
+
+        icon: Target,
+
         question:
-          "What is your main health goal right now?",
+          "What is your primary health goal?",
 
         options: [
           "Weight Loss",
@@ -15,38 +32,78 @@ export const selfAssessmentTabs = [
           "Increase Energy",
           "Stress Reduction",
           "Hormonal Balance",
-          "Better Sleep",
         ],
       },
 
       {
-        id: "goal_2",
+        id: "energy",
+
+        short: "Energy",
+
+        icon: Activity,
+
         question:
-          "How committed are you to improving your health?",
+          "How would you describe your daily energy?",
 
         options: [
-          "Very Committed",
-          "Moderately Committed",
-          "Not Sure Yet",
+          "Very Low",
+          "Moderate",
+          "Good",
+          "High & Stable",
         ],
       },
-    ],
-  },
 
-  {
-    id: "readiness",
-    title: "Readiness",
-
-    questions: [
       {
-        id: "readiness_1",
+        id: "stress2",
+
+        short: "Stress",
+
+        icon: Brain,
+
         question:
-          "How ready are you to follow a wellness routine?",
+          "How stressed do you feel currently?",
 
         options: [
-          "Highly Ready",
-          "Somewhat Ready",
-          "Need Guidance",
+          "Low",
+          "Moderate",
+          "High",
+          "Very High",
+        ],
+      },
+
+      {
+        id: "motivation",
+
+        short: "Motivation",
+
+        icon: Sparkles,
+
+        question:
+          "How motivated are you to improve your health?",
+
+        options: [
+          "Not Sure",
+          "Somewhat Motivated",
+          "Motivated",
+          "Highly Committed",
+        ],
+      },
+
+      {
+        id: "wellbeing",
+
+        short: "Wellbeing",
+
+        icon: Heart,
+
+        question:
+          "How satisfied are you with your current health?",
+
+        options: [
+          "Not Satisfied",
+          "Average",
+          "Good",
+          "Excellent",
         ],
       },
     ],

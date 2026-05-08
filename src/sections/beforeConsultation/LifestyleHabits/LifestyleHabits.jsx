@@ -1,120 +1,158 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import CategoryCard from "../../../components/questionnaire/CategoryCard";
-import QuestionTabs from "../../../components/questionnaire/QuestionTabs";
-import QuestionProgress from "../../../components/questionnaire/QuestionProgress";
-import QuestionCard from "../../../components/questionnaire/QuestionCard";
-import QuestionOption from "../../../components/questionnaire/QuestionOption";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import { lifestyleTabs } from "./lifestyleHabitsData";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-const LifestyleHabits = ({ onComplete }) => {
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-  const [activeTab, setActiveTab] = useState(
-    lifestyleTabs[0].id
-  );
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
+import { lifestyleSections } from "./LifestyleHabitsData";
 
-  const [answers, setAnswers] = useState({});
+import { patientFlowSections } from "../../../utils/patientFlowSections";
 
-  const currentTab = lifestyleTabs.find(
-    (tab) => tab.id === activeTab
-  );
+const LifestyleHabits = ({
+  onComplete,
+  activeQuestion,
+  onNavigate,
+}) => {
 
-  const currentQuestion =
-    currentTab.questions[questionIndex];
+  const section =
+    lifestyleSections[0];
 
-  const handleSelect = (option) => {
+  const [answers, setAnswers] =
+    useState({});
 
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.id]: option,
-    }));
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
+    );
 
-    const isLastQuestion =
-      questionIndex ===
-      currentTab.questions.length - 1;
+  useEffect(() => {
 
-    if (!isLastQuestion) {
-      setQuestionIndex((prev) => prev + 1);
+    if (activeQuestion) {
 
-    } else {
+      setOpenQuestion(
+        activeQuestion
+      );
+    }
 
-      const currentTabIndex =
-        lifestyleTabs.findIndex(
-          (tab) => tab.id === activeTab
+  }, [activeQuestion]);
+
+  const handleSelect = (
+    questionId,
+    option
+  ) => {
+
+    const updated = {
+      ...answers,
+      [questionId]: option,
+    };
+
+    setAnswers(updated);
+
+    const currentIndex =
+      section.questions.findIndex(
+        (q) => q.id === questionId
+      );
+
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
+
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
         );
-
-      const isLastTab =
-        currentTabIndex ===
-        lifestyleTabs.length - 1;
-
-      if (!isLastTab) {
-
-        setActiveTab(
-          lifestyleTabs[currentTabIndex + 1].id
-        );
-
-        setQuestionIndex(0);
 
       } else {
-        onComplete?.(answers);
+
+        setOpenQuestion(null);
       }
-    }
+
+    }, 350);
   };
 
   return (
-    <CategoryCard title="Lifestyle & Daily Habits">
 
-      <QuestionTabs
-        tabs={lifestyleTabs.map(
-          (tab) => tab.title
-        )}
-        activeTab={currentTab.title}
-        setActiveTab={(title) => {
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
+          sections={patientFlowSections}
+          activeSection="lifestyle"
+          activeQuestion={openQuestion}
+          answers={answers}
+          onNavigate={onNavigate}
+        />
+      }
+    >
 
-          const selected =
-            lifestyleTabs.find(
-              (tab) => tab.title === title
-            );
-
-          setActiveTab(selected.id);
-          setQuestionIndex(0);
-        }}
-      />
-
-      <QuestionProgress
-        current={questionIndex + 1}
-        total={currentTab.questions.length}
-      />
-
-      <QuestionCard
-        question={currentQuestion.question}
+      <WellnessSectionCard
+        title="Lifestyle & Habits"
+        subtitle="Tell us about your daily habits."
       >
-        <div className="space-y-4">
 
-          {currentQuestion.options.map(
-            (option, index) => (
-              <QuestionOption
-                key={index}
-                label={option}
-                selected={
-                  answers[currentQuestion.id] ===
-                  option
+        <div className="space-y-5">
+
+          {section.questions.map(
+            (q) => (
+
+              <ExpandableQuestion
+                key={q.id}
+                icon={q.icon}
+                question={q.question}
+                options={q.options}
+                selected={answers[q.id]}
+                isOpen={
+                  openQuestion === q.id
                 }
-                onClick={() =>
-                  handleSelect(option)
+                onOpen={() =>
+                  setOpenQuestion(q.id)
+                }
+                onSelect={(option) =>
+                  handleSelect(
+                    q.id,
+                    option
+                  )
                 }
               />
             )
           )}
 
         </div>
-      </QuestionCard>
 
-    </CategoryCard>
+        <button
+          onClick={() =>
+            onComplete?.(answers)
+          }
+          className="
+            w-full
+            mt-10
+            py-5
+            rounded-2xl
+            text-lg
+            font-semibold
+            transition-all
+            bg-gradient-to-r
+            from-green-600
+            to-emerald-500
+            text-white
+            shadow-lg
+            hover:scale-[1.01]
+          "
+        >
+          Continue
+        </button>
+
+      </WellnessSectionCard>
+
+    </AssessmentLayout>
   );
 };
 

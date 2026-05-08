@@ -2,30 +2,37 @@ const QuestionProgress = ({
   current,
   total,
 }) => {
-  const percentage = (current / total) * 100;
+
+  const percent =
+    (current / total) * 100;
 
   return (
-    <div className="space-y-2">
-      <div className="flex justify-between text-sm text-gray-500">
-        <p>
+
+    <div className="mb-8">
+
+      <div className="flex justify-between mb-3 text-gray-600">
+
+        <span>
           Question {current} of {total}
-        </p>
+        </span>
 
-        <p>{Math.round(percentage)}%</p>
+        <span>
+          {Math.round(percent)}%
+        </span>
+
       </div>
 
-      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+      <div className="w-full h-3 bg-gray-200 rounded-full">
+
         <div
-          style={{ width: `${percentage}%` }}
-          className="
-            h-full
-            bg-gradient-to-r
-            from-teal-500
-            to-emerald-500
-            transition-all duration-500
-          "
+          style={{
+            width: `${percent}%`,
+          }}
+          className="h-3 bg-green-600 rounded-full"
         />
+
       </div>
+
     </div>
   );
 };

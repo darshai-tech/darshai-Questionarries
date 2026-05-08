@@ -49,11 +49,7 @@ const BasicDetails = ({ onComplete }) => {
 
         </div>
 
-        {/* Progress */}
-        <ProgressBar
-          currentStep={1}
-          totalSteps={4}
-        />
+       
 
         {/* Form Card */}
         <Card>

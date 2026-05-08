@@ -1,56 +1,108 @@
-export const mentalTabs = [
+import {
+  Brain,
+  Smartphone,
+  Trees,
+  Plane,
+  CloudSun,
+} from "lucide-react";
+
+export const mentalEmotionalSections = [
   {
-    id: "environment",
-    title: "Environment",
+    id: "mentalEmotional",
+
+    title: "Mental & Emotional",
+
+    subtitle:
+      "Tell us about your emotional wellness.",
 
     questions: [
       {
-        id: "env_1",
+        id: "stress1",
+
+        short: "Stress",
+
+        icon: Brain,
+
         question:
-          "How would you describe your living environment?",
+          "How would you describe your stress levels?",
 
         options: [
-          "Calm & Natural",
-          "Moderately Busy",
-          "Highly Stressful",
+          "Low",
+          "Moderate",
+          "High",
+          "Very High",
         ],
       },
-    ],
-  },
 
-  {
-    id: "screen",
-    title: "Screen Time",
-
-    questions: [
       {
-        id: "screen_1",
+        id: "screenTime",
+
+        short: "Screen",
+
+        icon: Smartphone,
+
         question:
-          "How much time do you spend on screens daily?",
+          "How much screen time do you have daily?",
 
         options: [
-          "Less than 3 hours",
-          "3-6 hours",
-          "More than 6 hours",
+          "<2 Hours",
+          "2–5 Hours",
+          "5–8 Hours",
+          "8+ Hours",
         ],
       },
-    ],
-  },
 
-  {
-    id: "exploration",
-    title: "Exploration",
-
-    questions: [
       {
-        id: "explore_1",
+        id: "outside",
+
+        short: "Outdoor",
+
+        icon: Trees,
+
         question:
-          "How interested are you in exploring new outdoor experiences?",
+          "How often do you spend time outdoors?",
 
         options: [
-          "Highly Interested",
-          "Somewhat Interested",
-          "Not Interested",
+          "Rarely",
+          "Sometimes",
+          "Frequently",
+          "Daily",
+        ],
+      },
+
+      {
+        id: "travel",
+
+        short: "Travel",
+
+        icon: Plane,
+
+        question:
+          "How frequently do you travel?",
+
+        options: [
+          "Rarely",
+          "Monthly",
+          "Weekly",
+          "Very Frequently",
+        ],
+      },
+
+      {
+        id: "environment",
+
+        short: "Environment",
+
+        icon: CloudSun,
+
+        question:
+          "How much does your environment affect your wellbeing?",
+
+        options: [
+          "Very Little",
+          "Moderately",
+          "Strongly",
+          "Extremely",
         ],
       },
     ],

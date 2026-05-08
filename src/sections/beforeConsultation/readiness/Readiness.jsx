@@ -1,136 +1,156 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import CategoryCard from "../../../components/questionnaire/CategoryCard";
-import QuestionTabs from "../../../components/questionnaire/QuestionTabs";
-import QuestionProgress from "../../../components/questionnaire/QuestionProgress";
-import QuestionCard from "../../../components/questionnaire/QuestionCard";
-import QuestionOption from "../../../components/questionnaire/QuestionOption";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import Button from "../../../components/common/Button";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-import { readinessTabs } from "./readinessData";
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-const Readiness = ({ onComplete }) => {
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-  const [activeTab, setActiveTab] = useState(
-    readinessTabs[0].id
-  );
+import { readinessSections } from "./readinessData";
 
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
+import { patientFlowSections } from "../../../utils/patientFlowSections";
 
-  const [answers, setAnswers] = useState({});
+const Readiness = ({
+  onComplete,
+  activeQuestion,
+  onNavigate,
+}) => {
 
-  const currentTab = readinessTabs.find(
-    (tab) => tab.id === activeTab
-  );
+  const section =
+    readinessSections[0];
 
-  const currentQuestion =
-    currentTab.questions[questionIndex];
+  const [answers, setAnswers] =
+    useState({});
 
-  const handleSelect = (option) => {
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
+    );
 
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.id]: option,
-    }));
+  useEffect(() => {
 
-    const isLastQuestion =
-      questionIndex ===
-      currentTab.questions.length - 1;
+    if (activeQuestion) {
 
-    if (!isLastQuestion) {
+      setOpenQuestion(
+        activeQuestion
+      );
+    }
 
-      setQuestionIndex((prev) => prev + 1);
+  }, [activeQuestion]);
 
-    } else {
+  const handleSelect = (
+    questionId,
+    option
+  ) => {
 
-      const currentTabIndex =
-        readinessTabs.findIndex(
-          (tab) => tab.id === activeTab
+    const updated = {
+      ...answers,
+      [questionId]: option,
+    };
+
+    setAnswers(updated);
+
+    const currentIndex =
+      section.questions.findIndex(
+        (q) => q.id === questionId
+      );
+
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
+
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
         );
-
-      const isLastTab =
-        currentTabIndex ===
-        readinessTabs.length - 1;
-
-      if (!isLastTab) {
-
-        setActiveTab(
-          readinessTabs[currentTabIndex + 1].id
-        );
-
-        setQuestionIndex(0);
 
       } else {
 
-        onComplete?.(answers);
+        setOpenQuestion(null);
       }
-    }
+
+    }, 300);
   };
 
   return (
-    <CategoryCard title="Readiness & Commitment">
 
-      {/* Tabs */}
-      <QuestionTabs
-        tabs={readinessTabs.map(
-          (tab) => tab.title
-        )}
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
+          sections={patientFlowSections}
+          activeSection="readiness"
+          activeQuestion={openQuestion}
+          answers={answers}
+          onNavigate={onNavigate}
+        />
+      }
+    >
 
-        activeTab={currentTab.title}
-
-        setActiveTab={(title) => {
-
-          const selected =
-            readinessTabs.find(
-              (tab) => tab.title === title
-            );
-
-          setActiveTab(selected.id);
-          setQuestionIndex(0);
-        }}
-      />
-
-      {/* Progress */}
-      <QuestionProgress
-        current={questionIndex + 1}
-        total={currentTab.questions.length}
-      />
-
-      {/* Question */}
-      <QuestionCard
-        question={currentQuestion.question}
+      <WellnessSectionCard
+        title="Readiness"
+        subtitle="Tell us about your readiness for transformation."
       >
-        <div className="space-y-4">
 
-          {currentQuestion.options.map(
-            (option, index) => (
-              <QuestionOption
-                key={index}
-                label={option}
-                selected={
-                  answers[currentQuestion.id] ===
-                  option
+        <div className="space-y-5">
+
+          {section.questions.map(
+            (q) => (
+
+              <ExpandableQuestion
+                key={q.id}
+                icon={q.icon}
+                question={q.question}
+                options={q.options}
+                selected={answers[q.id]}
+                isOpen={
+                  openQuestion === q.id
                 }
-                onClick={() =>
-                  handleSelect(option)
+                onOpen={() =>
+                  setOpenQuestion(q.id)
+                }
+                onSelect={(option) =>
+                  handleSelect(
+                    q.id,
+                    option
+                  )
                 }
               />
             )
           )}
 
         </div>
-      </QuestionCard>
 
-      {/* Footer */}
-      <div className="flex justify-end">
-        <Button>
-          Auto Saving...
-        </Button>
-      </div>
+        <button
+          onClick={() =>
+            onComplete?.(answers)
+          }
+          className="
+            w-full
+            mt-10
+            py-5
+            rounded-2xl
+            text-lg
+            font-semibold
+            bg-gradient-to-r
+            from-green-600
+            to-emerald-500
+            text-white
+            shadow-lg
+          "
+        >
+          Continue
+        </button>
 
-    </CategoryCard>
+      </WellnessSectionCard>
+
+    </AssessmentLayout>
   );
 };
 

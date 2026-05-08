@@ -1,120 +1,218 @@
-import { useState } from "react";
+import {
+  useState,
+  useEffect,
+} from "react";
 
-import CategoryCard from "../../../components/questionnaire/CategoryCard";
-import QuestionTabs from "../../../components/questionnaire/QuestionTabs";
-import QuestionProgress from "../../../components/questionnaire/QuestionProgress";
-import QuestionCard from "../../../components/questionnaire/QuestionCard";
-import QuestionOption from "../../../components/questionnaire/QuestionOption";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import { mentalTabs } from "./mentalEmotionalData";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-const MentalEmotional = ({ onComplete }) => {
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-  const [activeTab, setActiveTab] = useState(
-    mentalTabs[0].id
-  );
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
+import {
+  mentalEmotionalSections,
+} from "./mentalEmotionalData";
 
-  const [answers, setAnswers] = useState({});
+import {
+  patientFlowSections,
+} from "../../../utils/patientFlowSections";
 
-  const currentTab = mentalTabs.find(
-    (tab) => tab.id === activeTab
-  );
+const MentalEmotional = ({
+  onComplete,
 
-  const currentQuestion =
-    currentTab.questions[questionIndex];
+  activeQuestion,
 
-  const handleSelect = (option) => {
+  onNavigate,
 
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.id]: option,
-    }));
+  onSectionChange,
+}) => {
 
-    const isLastQuestion =
-      questionIndex ===
-      currentTab.questions.length - 1;
+  const section =
+    mentalEmotionalSections[0];
 
-    if (!isLastQuestion) {
-      setQuestionIndex((prev) => prev + 1);
+  const [answers, setAnswers] =
+    useState({});
 
-    } else {
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
+    );
 
-      const currentTabIndex =
-        mentalTabs.findIndex(
-          (tab) => tab.id === activeTab
-        );
+  /* SIDEBAR QUESTION SYNC */
+  useEffect(() => {
 
-      const isLastTab =
-        currentTabIndex ===
-        mentalTabs.length - 1;
+    if (activeQuestion) {
 
-      if (!isLastTab) {
-
-        setActiveTab(
-          mentalTabs[currentTabIndex + 1].id
-        );
-
-        setQuestionIndex(0);
-
-      } else {
-        onComplete?.(answers);
-      }
+      setOpenQuestion(
+        activeQuestion
+      );
     }
+
+  }, [activeQuestion]);
+
+  /* SELECT ANSWER */
+  const handleSelect = (
+    questionId,
+    option
+  ) => {
+
+    const updated = {
+      ...answers,
+      [questionId]: option,
+    };
+
+    setAnswers(updated);
+
+    const currentIndex =
+      section.questions.findIndex(
+        (q) => q.id === questionId
+      );
+
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
+
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
+        );
+
+      }
+
+    }, 300);
   };
 
   return (
-    <CategoryCard title="Mental & Emotional Environment">
 
-      <QuestionTabs
-        tabs={mentalTabs.map(
-          (tab) => tab.title
-        )}
-        activeTab={currentTab.title}
-        setActiveTab={(title) => {
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
 
-          const selected =
-            mentalTabs.find(
-              (tab) => tab.title === title
+          sections={
+            patientFlowSections
+          }
+
+          activeSection="mentalEmotional"
+
+          activeQuestion={
+            openQuestion
+          }
+
+          answers={answers}
+
+          onNavigate={(
+            questionId,
+            sectionId
+          ) => {
+
+            /* SWITCH SECTION */
+            if (
+              sectionId !==
+              "mentalEmotional"
+            ) {
+
+              onSectionChange?.(
+                sectionId
+              );
+
+              return;
+            }
+
+            /* SAME SECTION */
+            setOpenQuestion(
+              questionId
             );
+          }}
+        />
+      }
+    >
 
-          setActiveTab(selected.id);
-          setQuestionIndex(0);
-        }}
-      />
-
-      <QuestionProgress
-        current={questionIndex + 1}
-        total={currentTab.questions.length}
-      />
-
-      <QuestionCard
-        question={currentQuestion.question}
+      <WellnessSectionCard
+        title="Mental & Emotional"
+        subtitle="Tell us about your emotional wellness."
       >
-        <div className="space-y-4">
 
-          {currentQuestion.options.map(
-            (option, index) => (
-              <QuestionOption
-                key={index}
-                label={option}
-                selected={
-                  answers[currentQuestion.id] ===
-                  option
+        <div className="space-y-5">
+
+          {section.questions.map(
+            (q) => (
+
+              <ExpandableQuestion
+                key={q.id}
+
+                icon={q.icon}
+
+                question={
+                  q.question
                 }
-                onClick={() =>
-                  handleSelect(option)
+
+                options={
+                  q.options
+                }
+
+                selected={
+                  answers[q.id]
+                }
+
+                isOpen={
+                  openQuestion ===
+                  q.id
+                }
+
+                onOpen={() =>
+                  setOpenQuestion(
+                    q.id
+                  )
+                }
+
+                onSelect={(option) =>
+                  handleSelect(
+                    q.id,
+                    option
+                  )
                 }
               />
             )
           )}
 
         </div>
-      </QuestionCard>
 
-    </CategoryCard>
+        {/* CONTINUE */}
+        <button
+          onClick={() =>
+            onComplete?.(
+              answers
+            )
+          }
+          className="
+            w-full
+            mt-10
+            py-5
+            rounded-2xl
+            text-lg
+            font-semibold
+            transition-all
+            bg-gradient-to-r
+            from-green-600
+            to-emerald-500
+            text-white
+            shadow-lg
+            hover:scale-[1.01]
+          "
+        >
+          Continue
+        </button>
+
+      </WellnessSectionCard>
+
+    </AssessmentLayout>
   );
 };
 

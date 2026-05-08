@@ -1,91 +1,213 @@
 import { useState } from "react";
-import Prakriti from "../sections/prakriti/Prakriti";
-import Vikriti from "../sections/vikriti/Vikriti";
-import Agni from "../sections/agni/Agni";
-import Ama from "../sections/ama/Ama";
-import ProgressBar from "../components/common/ProgressBar";
 
-// Result components (we'll define below)
-import PrakritiResult from "../sections/prakriti/PrakritiResult";
-import VikritiResult from "../sections/vikriti/VikritiResult";
-import AgniResult from "../sections/agni/AgniResult";
-import AmaResult from "../sections/ama/AmaResult";
+import AssessmentLayout from "../layouts/AssessmentLayout";
+
+import FlowIntro from "./FlowIntro";
+
+/* PATIENT FLOW */
+import BasicDetails from "../sections/afterLogin/BasicDetails";
+
+import SelfAssessment from "../sections/beforeConsultation/selfAssessment/SelfAssessment";
+
+import LifestyleHabits from "../sections/beforeConsultation/LifestyleHabits/LifestyleHabits";
+
+import MentalEmotional from "../sections/beforeConsultation/mentalEmotional/MentalEmotional";
+
+import Readiness from "../sections/beforeConsultation/readiness/Readiness";
+
+import ConsultationReady from "../pages/ConsultationReady";
+
+/* DOCTOR FLOW */
+import Prakriti from "../sections/prakriti/Prakriti";
+
+import Vikriti from "../sections/vikriti/Vikriti";
+
+import Agni from "../sections/agni/Agni";
+
+import Ama from "../sections/ama/Ama";
+
+import AyurvedicResult from "../sections/duringConsultation/ayurvedicResult/AyurvedicResult";
+
+import ClinicalData from "../sections/duringConsultation/clinicalData/ClinicalData";
+
+import LabReports from "../sections/duringConsultation/labReports/LabReports";
+
+import ConsultationResult from "../sections/duringConsultation/consultationResult/ConsultationResult";
+
+import DoctorNotes from "../sections/duringConsultation/doctorNotes/DoctorNotes";
+
+/* FINAL */
+import FinalSummary from "../sections/afterConsultation/FinalSummary";
+
 import FinalResult from "./FinalResult";
-import CloseButton from "../components/common/CloseButton";
 
 const Assessment = () => {
-  const [step, setStep] = useState(1);
+  /* MAIN STEP */
+  const [step, setStep] = useState(0);
 
-  const [data, setData] = useState({
-    prakriti: {},
-    vikriti: {},
-    agni: {},
-    ama: {},
-  });
+  /* GLOBAL DATA */
+  const [data, setData] = useState({});
 
-  const handleNext = (section, values) => {
-    setData((prev) => ({
-      ...prev,
-      [section]: values,
-    }));
+  /* GLOBAL SIDEBAR NAVIGATION */
+  const [activeQuestion, setActiveQuestion] = useState(null);
 
-    setStep((prev) => prev + 1);
+  const [activeSection, setActiveSection] = useState("selfAssessment");
+
+  /* ALL STEPS */
+  const steps = [
+    {
+      component: FlowIntro,
+      key: "flowIntro",
+      sectionId: "intro",
+    },
+    {
+      component: BasicDetails,
+      key: "basicDetails",
+      sectionId: "basicDetails",
+    },
+
+    {
+      component: SelfAssessment,
+      key: "selfAssessment",
+      sectionId: "selfAssessment",
+    },
+
+    {
+      component: LifestyleHabits,
+      key: "lifestyleHabits",
+      sectionId: "lifestyle",
+    },
+
+    {
+      component: MentalEmotional,
+      key: "mentalEmotional",
+      sectionId: "mental",
+    },
+
+    {
+      component: Readiness,
+      key: "readiness",
+      sectionId: "readiness",
+    },
+
+    {
+      component: ConsultationReady,
+      key: "consultationReady",
+      sectionId: "consultationReady",
+    },
+
+    {
+      component: Prakriti,
+      key: "prakriti",
+      sectionId: "prakriti",
+    },
+
+    {
+      component: Vikriti,
+      key: "vikriti",
+      sectionId: "vikriti",
+    },
+
+    {
+      component: Agni,
+      key: "agni",
+      sectionId: "agni",
+    },
+
+    {
+      component: Ama,
+      key: "ama",
+      sectionId: "ama",
+    },
+
+    {
+      component: AyurvedicResult,
+      key: "ayurvedicResult",
+      sectionId: "ayurvedicResult",
+    },
+
+    {
+      component: ClinicalData,
+      key: "clinicalData",
+      sectionId: "clinical",
+    },
+
+    {
+      component: LabReports,
+      key: "labReports",
+      sectionId: "labs",
+    },
+
+    {
+      component: ConsultationResult,
+      key: "consultationResult",
+      sectionId: "consultationResult",
+    },
+   {
+      component: DoctorNotes,
+      key: "doctorNotes",
+      sectionId: "doctorNotes",
+   },
+
+    {
+      component: FinalSummary,
+      key: "finalSummary",
+      sectionId: "summary",
+    },
+    
+
+    {
+      component: FinalResult,
+      key: "finalResult",
+      sectionId: "finalResult",
+    },
+  ];
+
+  const currentStep = steps[step];
+
+  /* NEXT */
+  const next = (key, values) => {
+    if (key) {
+      setData((prev) => ({
+        ...prev,
+        [key]: values,
+      }));
+    }
+
+    const nextStep = step + 1;
+
+    if (steps[nextStep]) {
+      setActiveSection(steps[nextStep].sectionId);
+    }
+
+    setStep(nextStep);
   };
 
+  /* SIDEBAR NAVIGATION */
+  const handleSidebarNavigate = (questionId, sectionId) => {
+    setActiveQuestion(questionId);
+
+    setActiveSection(sectionId);
+
+    const sectionStep = steps.findIndex((s) => s.sectionId === sectionId);
+
+    if (sectionStep !== -1) {
+      setStep(sectionStep);
+    }
+  };
+
+  const CurrentComponent = currentStep.component;
+
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <CloseButton />
-
-      <ProgressBar step={Math.ceil(step / 2)} />
-
-      {/* PRAKRITI */}
-      {step === 1 && (
-        <Prakriti onComplete={(d) => handleNext("prakriti", d)} />
-      )}
-      {step === 2 && (
-        <PrakritiResult
-          data={data.prakriti}
-          onNext={() => setStep(3)}
-        />
-      )}
-
-      {/* VIKRITI */}
-      {step === 3 && (
-        <Vikriti onComplete={(d) => handleNext("vikriti", d)} />
-      )}
-      {step === 4 && (
-        <VikritiResult
-          data={data.vikriti}
-          onNext={() => setStep(5)}
-        />
-      )}
-
-      {/* AGNI */}
-      {step === 5 && (
-        <Agni onComplete={(d) => handleNext("agni", d)} />
-      )}
-      {step === 6 && (
-        <AgniResult
-          data={data.agni}
-          onNext={() => setStep(7)}
-        />
-      )}
-
-      {/* AMA */}
-      {step === 7 && (
-        <Ama onComplete={(d) => handleNext("ama", d)} />
-      )}
-      {step === 8 && (
-        <AmaResult
-          data={data.ama}
-          onNext={() => setStep(9)}
-        />
-      )}
-
-      {/* FINAL */}
-      {step === 9 && <FinalResult data={data} />}
-
-    </div>
+    <AssessmentLayout>
+      <CurrentComponent
+        data={data}
+        activeSection={activeSection}
+        activeQuestion={activeQuestion}
+        onNavigate={handleSidebarNavigate}
+        onComplete={(values) => next(currentStep.key, values)}
+      />
+    </AssessmentLayout>
   );
 };
 

@@ -1,125 +1,156 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-import CategoryCard from "../../../components/questionnaire/CategoryCard";
-import QuestionTabs from "../../../components/questionnaire/QuestionTabs";
-import QuestionProgress from "../../../components/questionnaire/QuestionProgress";
-import QuestionCard from "../../../components/questionnaire/QuestionCard";
-import QuestionOption from "../../../components/questionnaire/QuestionOption";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import Button from "../../../components/common/Button";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-import { selfAssessmentTabs } from "./selfAssessmentData";
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-const SelfAssessment = ({ onComplete }) => {
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-  const [activeTab, setActiveTab] = useState(
-    selfAssessmentTabs[0].id
-  );
+import { selfAssessmentSections } from "./selfAssessmentData";
 
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
+import { patientFlowSections } from "../../../utils/patientFlowSections";
 
-  const [answers, setAnswers] = useState({});
+const SelfAssessment = ({
+  onComplete,
+  activeQuestion,
+  onNavigate,
+}) => {
 
-  const currentTab = selfAssessmentTabs.find(
-    (tab) => tab.id === activeTab
-  );
+  const section =
+    selfAssessmentSections[0];
 
-  const currentQuestion =
-    currentTab.questions[questionIndex];
+  const [answers, setAnswers] =
+    useState({});
 
-  const handleSelect = (option) => {
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
+    );
 
-    setAnswers((prev) => ({
-      ...prev,
-      [currentQuestion.id]: option,
-    }));
+  useEffect(() => {
 
-    const isLastQuestion =
-      questionIndex ===
-      currentTab.questions.length - 1;
+    if (activeQuestion) {
 
-    if (!isLastQuestion) {
-      setQuestionIndex((prev) => prev + 1);
-    } else {
+      setOpenQuestion(
+        activeQuestion
+      );
+    }
 
-      const currentTabIndex =
-        selfAssessmentTabs.findIndex(
-          (tab) => tab.id === activeTab
+  }, [activeQuestion]);
+
+  const handleSelect = (
+    questionId,
+    option
+  ) => {
+
+    const updated = {
+      ...answers,
+      [questionId]: option,
+    };
+
+    setAnswers(updated);
+
+    const currentIndex =
+      section.questions.findIndex(
+        (q) => q.id === questionId
+      );
+
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
+
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
         );
-
-      const isLastTab =
-        currentTabIndex ===
-        selfAssessmentTabs.length - 1;
-
-      if (!isLastTab) {
-        setActiveTab(
-          selfAssessmentTabs[currentTabIndex + 1].id
-        );
-
-        setQuestionIndex(0);
 
       } else {
-        onComplete?.(answers);
+
+        setOpenQuestion(null);
       }
-    }
+
+    }, 300);
   };
 
   return (
-    <CategoryCard title="Self Assessment">
 
-      <QuestionTabs
-        tabs={selfAssessmentTabs.map(
-          (tab) => tab.title
-        )}
-        activeTab={currentTab.title}
-        setActiveTab={(title) => {
-          const selected =
-            selfAssessmentTabs.find(
-              (tab) => tab.title === title
-            );
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
+          sections={patientFlowSections}
+          activeSection="selfAssessment"
+          activeQuestion={openQuestion}
+          answers={answers}
+          onNavigate={onNavigate}
+        />
+      }
+    >
 
-          setActiveTab(selected.id);
-          setQuestionIndex(0);
-        }}
-      />
-
-      <QuestionProgress
-        current={questionIndex + 1}
-        total={currentTab.questions.length}
-      />
-
-      <QuestionCard
-        question={currentQuestion.question}
+      <WellnessSectionCard
+        title="Self Assessment"
+        subtitle="Tell us about your wellness goals."
       >
-        <div className="space-y-4">
 
-          {currentQuestion.options.map(
-            (option, index) => (
-              <QuestionOption
-                key={index}
-                label={option}
-                selected={
-                  answers[currentQuestion.id] ===
-                  option
+        <div className="space-y-5">
+
+          {section.questions.map(
+            (q) => (
+
+              <ExpandableQuestion
+                key={q.id}
+                icon={q.icon}
+                question={q.question}
+                options={q.options}
+                selected={answers[q.id]}
+                isOpen={
+                  openQuestion === q.id
                 }
-                onClick={() =>
-                  handleSelect(option)
+                onOpen={() =>
+                  setOpenQuestion(q.id)
+                }
+                onSelect={(option) =>
+                  handleSelect(
+                    q.id,
+                    option
+                  )
                 }
               />
             )
           )}
 
         </div>
-      </QuestionCard>
 
-      <div className="flex justify-end">
-        <Button>
-          Auto Saving...
-        </Button>
-      </div>
+        <button
+          onClick={() =>
+            onComplete?.(answers)
+          }
+          className="
+            w-full
+            mt-10
+            py-5
+            rounded-2xl
+            text-lg
+            font-semibold
+            bg-gradient-to-r
+            from-green-600
+            to-emerald-500
+            text-white
+            shadow-lg
+          "
+        >
+          Continue
+        </button>
 
-    </CategoryCard>
+      </WellnessSectionCard>
+
+    </AssessmentLayout>
   );
 };
 
