@@ -1,6 +1,8 @@
 import { selfAssessmentSections } from "../sections/beforeConsultation/selfAssessment/selfAssessmentData";
 
-import { lifestyleSections } from "../sections/beforeConsultation/LifestyleHabits/LifestyleHabitsData";
+import { burnoutTabs } from "../sections/beforeConsultation/burnout/burnoutData";
+
+import { lifestyleSections } from "../sections/beforeConsultation/LifestyleHabits/lifestyleHabitsData";
 
 import { mentalEmotionalSections } from "../sections/beforeConsultation/mentalEmotional/mentalEmotionalData";
 
@@ -15,6 +17,15 @@ export const patientFlowSections = [
 
     questions:
       selfAssessmentSections[0]
+        .questions,
+  },
+{
+    id: "burnoutAssessment",
+
+    title: "Burnout Assessment",  
+
+    questions:
+      burnoutTabs[0]
         .questions,
   },
 

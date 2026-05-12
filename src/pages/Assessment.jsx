@@ -7,6 +7,8 @@ import FlowIntro from "./FlowIntro";
 /* PATIENT FLOW */
 import BasicDetails from "../sections/afterLogin/BasicDetails";
 
+import BurnoutAssessment from "../sections/beforeConsultation/burnout/BurnoutAssessment";
+
 import SelfAssessment from "../sections/beforeConsultation/selfAssessment/SelfAssessment";
 
 import LifestyleHabits from "../sections/beforeConsultation/LifestyleHabits/LifestyleHabits";
@@ -67,10 +69,17 @@ const Assessment = () => {
     },
 
     {
+      component: BurnoutAssessment,
+      key: "burnoutAssessment",
+      sectionId: "burnoutAssessment",
+    },
+    
+    {
       component: SelfAssessment,
       key: "selfAssessment",
       sectionId: "selfAssessment",
     },
+    
 
     {
       component: LifestyleHabits,

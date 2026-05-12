@@ -1,26 +1,11 @@
-import {
-  Moon,
-  Dumbbell,
-  Brain,
-  Apple,
-  Droplets,
-} from "lucide-react";
-
 export const lifestyleSections = [
   {
-    id: "lifestyle",
-
-    title: "Lifestyle & Habits",
+    id: "sleep",
+    title: "Sleep",
 
     questions: [
-
       {
-        id: "sleep",
-
-        short: "Sleep",
-
-        icon: Moon,
-
+        id: "sleep_1",
         question:
           "How would you describe your sleep quality?",
 
@@ -32,70 +17,52 @@ export const lifestyleSections = [
       },
 
       {
-        id: "exercise",
-
-        short: "Exercise",
-
-        icon: Dumbbell,
-
+        id: "sleep_2",
         question:
-          "How active are you physically?",
+          "How many hours do you sleep daily?",
 
         options: [
-          "Low Activity",
-          "Moderate",
-          "Highly Active",
+          "7-8 Hours",
+          "5-6 Hours",
+          "Less than 5 Hours",
         ],
       },
+    ],
+  },
 
+  {
+    id: "stress",
+    title: "Stress",
+
+    questions: [
       {
-        id: "stress",
-
-        short: "Stress",
-
-        icon: Brain,
-
+        id: "stress_1",
         question:
-          "Tell us about your stress levels",
+          "How often do you feel stressed?",
 
         options: [
-          "Rare",
+          "Rarely",
           "Sometimes",
-          "Frequent",
+          "Very Often",
         ],
       },
+    ],
+  },
 
+  {
+    id: "food",
+    title: "Food",
+
+    questions: [
       {
-        id: "food",
-
-        short: "Food",
-
-        icon: Apple,
-
+        id: "food_1",
         question:
-          "How healthy are your eating habits?",
+          "How regular are your meal timings?",
 
         options: [
-          "Very Healthy",
-          "Moderate",
-          "Needs Improvement",
-        ],
-      },
-
-      {
-        id: "hydration",
-
-        short: "Hydration",
-
-        icon: Droplets,
-
-        question:
-          "How much water do you drink daily?",
-
-        options: [
-          "Less than 1L",
-          "1–2 Litres",
-          "More than 3L",
+          "Very Regular",
+          "Sometimes Irregular",
+          "Completely Irregular",
         ],
       },
     ],
