@@ -1,4 +1,4 @@
-// LifestyleHabits.jsx
+// DigestiveAssessment.jsx
 
 import { useState } from "react";
 
@@ -10,14 +10,14 @@ import QuestionCard from "../../../components/questionnaire/QuestionCard";
 
 import QuestionOption from "../../../components/questionnaire/QuestionOption";
 
-import { lifestyleHabitSections } from "./lifestyleHabitsData";
+import { digestiveSections } from "./digestiveData";
 
-const LifestyleHabits = ({
+const DigestiveAssessment = ({
   onComplete,
 }) => {
 
   const section =
-    lifestyleHabitSections[0];
+    digestiveSections[0];
 
   const [questionIndex, setQuestionIndex] =
     useState(0);
@@ -58,7 +58,7 @@ const LifestyleHabits = ({
   return (
 
     <CategoryCard
-      title="Lifestyle & Compliance Assessment"
+      title="Digestive Assessment"
     >
 
       <QuestionProgress
@@ -105,4 +105,4 @@ const LifestyleHabits = ({
   );
 };
 
-export default LifestyleHabits;
+export default DigestiveAssessment;

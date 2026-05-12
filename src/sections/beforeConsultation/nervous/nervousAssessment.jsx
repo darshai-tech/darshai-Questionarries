@@ -1,4 +1,4 @@
-// LifestyleHabits.jsx
+// NervousAssessment.jsx
 
 import { useState } from "react";
 
@@ -10,14 +10,14 @@ import QuestionCard from "../../../components/questionnaire/QuestionCard";
 
 import QuestionOption from "../../../components/questionnaire/QuestionOption";
 
-import { lifestyleHabitSections } from "./lifestyleHabitsData";
+import { nervousSections } from "./nervousData";
 
-const LifestyleHabits = ({
+const NervousAssessment = ({
   onComplete,
 }) => {
 
   const section =
-    lifestyleHabitSections[0];
+    nervousSections[0];
 
   const [questionIndex, setQuestionIndex] =
     useState(0);
@@ -58,7 +58,7 @@ const LifestyleHabits = ({
   return (
 
     <CategoryCard
-      title="Lifestyle & Compliance Assessment"
+      title="Nervous System Assessment"
     >
 
       <QuestionProgress
@@ -105,4 +105,4 @@ const LifestyleHabits = ({
   );
 };
 
-export default LifestyleHabits;
+export default NervousAssessment;

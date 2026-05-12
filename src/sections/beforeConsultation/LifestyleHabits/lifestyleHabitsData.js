@@ -1,68 +1,106 @@
-export const lifestyleSections = [
+// lifestyleHabitsData.js
+
+import {
+  CalendarDays,
+  Briefcase,
+  CheckCircle2,
+  Plane,
+  Users,
+} from "lucide-react";
+
+export const lifestyleHabitSections = [
   {
-    id: "sleep",
-    title: "Sleep",
+    id: "lifestyleHabits",
+
+    title:
+      "Lifestyle & Compliance Assessment",
+
+    subtitle:
+      "Understand your routine, consistency, workload, and ability to follow wellness protocols.",
 
     questions: [
       {
-        id: "sleep_1",
+        id: "routineStability",
+
+        icon: CalendarDays,
+
         question:
-          "How would you describe your sleep quality?",
+          "How stable is your daily routine?",
+
+        weight: 25,
 
         options: [
-          "Deep & Refreshing",
-          "Light Sleep",
-          "Disturbed Sleep",
+          "Stable",
+          "Variable",
+          "Irregular",
         ],
       },
 
       {
-        id: "sleep_2",
+        id: "workload",
+
+        icon: Briefcase,
+
         question:
-          "How many hours do you sleep daily?",
+          "How would you describe your workload and intensity?",
+
+        weight: 20,
 
         options: [
-          "7-8 Hours",
-          "5-6 Hours",
-          "Less than 5 Hours",
+          "Low",
+          "Moderate",
+          "High",
         ],
       },
-    ],
-  },
 
-  {
-    id: "stress",
-    title: "Stress",
-
-    questions: [
       {
-        id: "stress_1",
+        id: "protocolCompliance",
+
+        icon: CheckCircle2,
+
         question:
-          "How often do you feel stressed?",
+          "How willing are you to follow a wellness protocol consistently?",
+
+        weight: 25,
 
         options: [
-          "Rarely",
-          "Sometimes",
-          "Very Often",
+          "High",
+          "Moderate",
+          "Low",
         ],
       },
-    ],
-  },
 
-  {
-    id: "food",
-    title: "Food",
-
-    questions: [
       {
-        id: "food_1",
+        id: "travelSchedule",
+
+        icon: Plane,
+
         question:
-          "How regular are your meal timings?",
+          "How irregular is your travel or work schedule?",
+
+        weight: 15,
 
         options: [
-          "Very Regular",
-          "Sometimes Irregular",
-          "Completely Irregular",
+          "Rare",
+          "Occasional",
+          "Frequent",
+        ],
+      },
+
+      {
+        id: "supportSystem",
+
+        icon: Users,
+
+        question:
+          "How strong is your support system?",
+
+        weight: 15,
+
+        options: [
+          "Strong",
+          "Limited",
+          "None",
         ],
       },
     ],

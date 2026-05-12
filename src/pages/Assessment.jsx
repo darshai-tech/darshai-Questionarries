@@ -9,6 +9,16 @@ import BasicDetails from "../sections/afterLogin/BasicDetails";
 
 import BurnoutAssessment from "../sections/beforeConsultation/burnout/BurnoutAssessment";
 
+import CardiovascularAssessment from "../sections/beforeConsultation/cardiovascular/CardiovascularAssessment";
+
+import DigestiveAssessment from "../sections/beforeConsultation/digestive/DigestiveAssessment";
+
+import MetabolicAssessment from "../sections/beforeConsultation/metabolic/MetabolicAssessment";
+
+import NervousAssessment from "../sections/beforeConsultation/nervous/NervousAssessment";
+
+import EnviromentAssessment from "../sections/beforeConsultation/environment/EnvironmentAssessment";
+
 import SelfAssessment from "../sections/beforeConsultation/selfAssessment/SelfAssessment";
 
 import LifestyleHabits from "../sections/beforeConsultation/LifestyleHabits/LifestyleHabits";
@@ -72,6 +82,36 @@ const Assessment = () => {
       component: BurnoutAssessment,
       key: "burnoutAssessment",
       sectionId: "burnoutAssessment",
+    },
+
+    {
+      component: CardiovascularAssessment,
+      key: "cardiovascular",
+      sectionId: "cardiovascular",
+    },
+    
+    {
+      component: DigestiveAssessment,
+      key: "digestive",
+      sectionId: "digestive",
+    },
+
+    {
+      component: MetabolicAssessment,
+      key: "metabolic",
+      sectionId: "metabolic",
+    },
+
+    {
+      component: NervousAssessment,
+      key: "nervous",
+      sectionId: "nervous",
+    },
+    
+    {
+      component: EnviromentAssessment,
+      key: "environment",
+      sectionId: "environment",
     },
     
     {

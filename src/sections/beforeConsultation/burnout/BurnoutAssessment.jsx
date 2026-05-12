@@ -1,216 +1,168 @@
-import { useState } from "react";
+import {
+  useState,
+  useEffect,
+} from "react";
 
-import CategoryCard
-  from "../../../components/questionnaire/CategoryCard";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import QuestionTabs
-  from "../../../components/questionnaire/QuestionTabs";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-import QuestionProgress
-  from "../../../components/questionnaire/QuestionProgress";
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-import QuestionCard
-  from "../../../components/questionnaire/QuestionCard";
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-import QuestionOption
-  from "../../../components/questionnaire/QuestionOption";
+import { burnoutTabs } from "./burnoutData";
 
-import { burnoutTabs }
-  from "./BurnoutData";
+import { patientFlowSections } from "../../../utils/patientFlowSections";
 
 const BurnoutAssessment = ({
   onComplete,
+  activeQuestion,
+  onNavigate,
 }) => {
 
-  const [activeTab, setActiveTab] =
-    useState(
-      burnoutTabs[0].id
-    );
-
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
+  const section =
+    burnoutTabs[0];
 
   const [answers, setAnswers] =
     useState({});
 
-  const currentTab =
-    burnoutTabs.find(
-      (tab) =>
-        tab.id === activeTab
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
     );
 
-  const currentQuestion =
-    currentTab.questions[
-      questionIndex
-    ];
+  /* SIDEBAR SYNC */
+  useEffect(() => {
 
+    if (activeQuestion) {
+
+      setOpenQuestion(
+        activeQuestion
+      );
+    }
+
+  }, [activeQuestion]);
+
+  /* SELECT */
   const handleSelect = (
+    questionId,
     option
   ) => {
 
-    const updatedAnswers = {
+    const updated = {
       ...answers,
-
-      [currentQuestion.id]:
-        option,
+      [questionId]: option,
     };
 
-    setAnswers(updatedAnswers);
+    setAnswers(updated);
 
-    const isLastQuestion =
-      questionIndex ===
-      currentTab.questions.length - 1;
-
-    if (!isLastQuestion) {
-
-      setQuestionIndex(
-        (prev) => prev + 1
+    const currentIndex =
+      section.questions.findIndex(
+        (q) => q.id === questionId
       );
 
-    } else {
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
 
-      const currentTabIndex =
-        burnoutTabs.findIndex(
-          (tab) =>
-            tab.id === activeTab
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
         );
-
-      const isLastTab =
-        currentTabIndex ===
-        burnoutTabs.length - 1;
-
-      if (!isLastTab) {
-
-        setActiveTab(
-          burnoutTabs[
-            currentTabIndex + 1
-          ].id
-        );
-
-        setQuestionIndex(0);
 
       } else {
 
-        onComplete?.(
-          updatedAnswers
-        );
+        setOpenQuestion(null);
       }
-    }
+
+    }, 300);
   };
 
   return (
 
-    <div
-      className="
-        min-h-screen
-        bg-gradient-to-br
-        from-[#F4F7F5]
-        via-[#EEF5F0]
-        to-[#E5F5EC]
-        p-8
-      "
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
+          sections={patientFlowSections}
+          activeSection="burnout"
+          activeQuestion={openQuestion}
+          answers={answers}
+          onNavigate={onNavigate}
+        />
+      }
     >
 
-      <CategoryCard
-        title="Burnout Clinical Assessment"
-        subtitle="Internal Clinical Scoring System"
+      <WellnessSectionCard
+        title="Burnout Assessment"
+        subtitle="Evaluate stress, recovery, and nervous system fatigue."
       >
 
-        {/* TABS */}
-        <QuestionTabs
-          tabs={burnoutTabs.map(
-            (tab) =>
-              tab.title
+        <div className="space-y-5">
+
+          {section.questions.map(
+            (q) => (
+
+              <ExpandableQuestion
+                key={q.id}
+                icon={q.icon}
+                question={q.question}
+                options={q.options}
+                selected={answers[q.id]}
+                isOpen={
+                  openQuestion === q.id
+                }
+                onOpen={() =>
+                  setOpenQuestion(q.id)
+                }
+                onSelect={(option) =>
+                  handleSelect(
+                    q.id,
+                    option
+                  )
+                }
+              />
+            )
           )}
 
-          activeTab={
-            currentTab.title
+        </div>
+
+        {/* CONTINUE */}
+        <button
+          onClick={() =>
+            onComplete?.(answers)
           }
+          className="
+            w-full
+            mt-10
+            py-5
+            rounded-2xl
+            text-lg
+            font-semibold
 
-          setActiveTab={(
-            title
-          ) => {
+            bg-gradient-to-r
+            from-green-600
+            to-emerald-500
 
-            const selected =
-              burnoutTabs.find(
-                (tab) =>
-                  tab.title ===
-                  title
-              );
+            text-white
 
-            setActiveTab(
-              selected.id
-            );
+            shadow-lg
 
-            setQuestionIndex(0);
-          }}
-        />
-
-        {/* PROGRESS */}
-        <QuestionProgress
-          current={
-            burnoutTabs.findIndex(
-              (tab) =>
-                tab.id ===
-                activeTab
-            ) + 1
-          }
-
-          total={
-            burnoutTabs.length
-          }
-        />
-
-        {/* QUESTION */}
-        <QuestionCard
-          question={
-            currentQuestion.question
-          }
-
-          subtitle={
-            currentQuestion.subtitle
-          }
+            hover:scale-[1.01]
+            transition-all
+          "
         >
+          Continue
+        </button>
 
-          <div className="space-y-4">
+      </WellnessSectionCard>
 
-            {currentQuestion.options.map(
-              (
-                option,
-                index
-              ) => (
-
-                <QuestionOption
-                  key={index}
-
-                  label={
-                    option.label
-                  }
-
-                  selected={
-                    answers[
-                      currentQuestion
-                        .id
-                    ]?.label ===
-                    option.label
-                  }
-
-                  onClick={() =>
-                    handleSelect(
-                      option
-                    )
-                  }
-                />
-              )
-            )}
-
-          </div>
-
-        </QuestionCard>
-
-      </CategoryCard>
-
-    </div>
+    </AssessmentLayout>
   );
 };
 
