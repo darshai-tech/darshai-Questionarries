@@ -232,74 +232,84 @@ const ExpandableQuestion = ({
 
             <div className="space-y-4">
 
-              {options.map((option) => {
+             {options.map((option, index) => {
 
-                const active =
-                  selected === option;
+  const optionLabel =
+    typeof option === "object"
+      ? option.label
+      : option;
 
-                return (
+  const active =
+    typeof option === "object"
+      ? selected?.label ===
+        option.label
+      : selected === option;
 
-                  <motion.button
+  return (
 
-                    whileHover={{
-                      scale: 1.01,
-                    }}
+    <motion.button
 
-                    whileTap={{
-                      scale: 0.98,
-                    }}
+      whileHover={{
+        scale: 1.01,
+      }}
 
-                    key={option}
+      whileTap={{
+        scale: 0.98,
+      }}
 
-                    onClick={() =>
-                      onSelect(option)
-                    }
+      key={`${optionLabel}-${index}`}
 
-                    className={`
-                      w-full
-                      p-5
-                      rounded-[22px]
-                      border
-                      text-left
-                      transition-all
-                      relative
-                      overflow-hidden
-                      ${
-                        active
-                          ? `
-                            bg-gradient-to-r
-                            from-green-600
-                            to-emerald-500
-                            text-white
-                            border-green-500
-                            shadow-lg
-                            shadow-green-200
-                          `
-                          : `
-                            bg-white/80
-                            border-gray-200
-                            hover:border-green-300
-                            hover:bg-green-50
-                          `
-                      }
-                    `}
-                  >
+      onClick={() =>
+        onSelect(option)
+      }
 
-                    <div className="flex items-center justify-between">
+      className={`
+        w-full
+        p-5
+        rounded-[22px]
+        border
+        text-left
+        transition-all
+        relative
+        overflow-hidden
+        ${
+          active
+            ? `
+              bg-gradient-to-r
+              from-green-600
+              to-emerald-500
+              text-white
+              border-green-500
+              shadow-lg
+              shadow-green-200
+            `
+            : `
+              bg-white/80
+              border-gray-200
+              hover:border-green-300
+              hover:bg-green-50
+            `
+        }
+      `}
+    >
 
-                      <span className="font-medium text-[16px]">
-                        {option}
-                      </span>
+      <div className="flex items-center justify-between">
 
-                      {active && (
-                        <Check size={18} />
-                      )}
+        <span className="font-medium text-[16px]">
 
-                    </div>
+          {optionLabel}
 
-                  </motion.button>
-                );
-              })}
+        </span>
+
+        {active && (
+          <Check size={18} />
+        )}
+
+      </div>
+
+    </motion.button>
+  );
+})}
 
             </div>
 

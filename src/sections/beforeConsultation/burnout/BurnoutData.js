@@ -18,26 +18,9 @@ export const burnoutTabs = [
         score: 20,
 
         options: [
-          {
-            label:
-              "7-8 Hrs (Deep Sleep)",
-
-            value: 3,
-          },
-
-          {
-            label:
-              "5-6 Hrs (Light Sleep)",
-
-            value: 2,
-          },
-
-          {
-            label:
-              "<5 Hrs (Disturbed)",
-
-            value: 1,
-          },
+          "7-8 Hrs (Deep Sleep)",
+          "5-6 Hrs (Light Sleep)",
+          "<5 Hrs (Disturbed)",
         ],
       },
     ],
@@ -61,23 +44,9 @@ export const burnoutTabs = [
         score: 20,
 
         options: [
-          {
-            label: "High",
-
-            value: 3,
-          },
-
-          {
-            label: "Normal",
-
-            value: 2,
-          },
-
-          {
-            label: "Low",
-
-            value: 1,
-          },
+          "High",
+          "Normal",
+          "Low",
         ],
       },
     ],
@@ -101,23 +70,9 @@ export const burnoutTabs = [
         score: 20,
 
         options: [
-          {
-            label: "50–65 bpm",
-
-            value: 3,
-          },
-
-          {
-            label: "66–80 bpm",
-
-            value: 2,
-          },
-
-          {
-            label: ">80 bpm",
-
-            value: 1,
-          },
+          "50–65 bpm",
+          "66–80 bpm",
+          ">80 bpm",
         ],
       },
     ],
@@ -141,23 +96,9 @@ export const burnoutTabs = [
         score: 15,
 
         options: [
-          {
-            label: "Manageable",
-
-            value: 3,
-          },
-
-          {
-            label: "Frequent",
-
-            value: 2,
-          },
-
-          {
-            label: "Overwhelming",
-
-            value: 1,
-          },
+          "Manageable",
+          "Frequent",
+          "Overwhelming",
         ],
       },
     ],
@@ -181,26 +122,9 @@ export const burnoutTabs = [
         score: 15,
 
         options: [
-          {
-            label:
-              "High & Stable",
-
-            value: 3,
-          },
-
-          {
-            label:
-              "Fluctuating",
-
-            value: 2,
-          },
-
-          {
-            label:
-              "Low / Fatigued",
-
-            value: 1,
-          },
+          "High & Stable",
+          "Fluctuating",
+          "Low / Fatigued",
         ],
       },
     ],
@@ -224,25 +148,9 @@ export const burnoutTabs = [
         score: 10,
 
         options: [
-          {
-            label: "Stable",
-
-            value: 3,
-          },
-
-          {
-            label:
-              "Mild Swings",
-
-            value: 2,
-          },
-
-          {
-            label:
-              "Frequent Swings",
-
-            value: 1,
-          },
+          "Stable",
+          "Mild Swings",
+          "Frequent Swings",
         ],
       },
     ],
