@@ -11,7 +11,7 @@ import WellnessSectionCard from "../../../components/questionnaire/WellnessSecti
 
 import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
-import { burnoutTabs } from "./burnoutData";
+import { burnoutSections } from "./burnoutData";
 
 import { patientFlowSections } from "../../../utils/patientFlowSections";
 
@@ -22,7 +22,7 @@ const BurnoutAssessment = ({
 }) => {
 
   const section =
-    burnoutTabs[0];
+    burnoutSections[0];
 
   const [answers, setAnswers] =
     useState({});
@@ -33,7 +33,6 @@ const BurnoutAssessment = ({
       section.questions[0].id
     );
 
-  /* SIDEBAR SYNC */
   useEffect(() => {
 
     if (activeQuestion) {
@@ -45,7 +44,6 @@ const BurnoutAssessment = ({
 
   }, [activeQuestion]);
 
-  /* SELECT */
   const handleSelect = (
     questionId,
     option
@@ -53,14 +51,24 @@ const BurnoutAssessment = ({
 
     const updated = {
       ...answers,
-      [questionId]: option,
+
+      [questionId]: {
+        label: option.label,
+        score: option.score,
+        weight:
+          section.questions.find(
+            (q) =>
+              q.id === questionId
+          )?.weight,
+      },
     };
 
     setAnswers(updated);
 
     const currentIndex =
       section.questions.findIndex(
-        (q) => q.id === questionId
+        (q) =>
+          q.id === questionId
       );
 
     const nextQuestion =
@@ -99,8 +107,8 @@ const BurnoutAssessment = ({
     >
 
       <WellnessSectionCard
-        title="Burnout Assessment"
-        subtitle="Evaluate stress, recovery, and nervous system fatigue."
+        title={section.title}
+        subtitle={section.subtitle}
       >
 
         <div className="space-y-5">
@@ -132,30 +140,11 @@ const BurnoutAssessment = ({
 
         </div>
 
-        {/* CONTINUE */}
         <button
           onClick={() =>
             onComplete?.(answers)
           }
-          className="
-            w-full
-            mt-10
-            py-5
-            rounded-2xl
-            text-lg
-            font-semibold
-
-            bg-gradient-to-r
-            from-green-600
-            to-emerald-500
-
-            text-white
-
-            shadow-lg
-
-            hover:scale-[1.01]
-            transition-all
-          "
+          className="w-full mt-10 py-5 rounded-2xl text-lg font-semibold bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-200 hover:scale-[1.01] transition-all"
         >
           Continue
         </button>

@@ -21,6 +21,8 @@ export const inflammationSections = [
       {
         id: "bodyPain",
 
+        short: "Pain",
+
         icon: Activity,
 
         question:
@@ -29,14 +31,27 @@ export const inflammationSections = [
         weight: 20,
 
         options: [
-          "None",
-          "Mild",
-          "Severe",
+          {
+            label: "None",
+            score: 3,
+          },
+
+          {
+            label: "Mild",
+            score: 2,
+          },
+
+          {
+            label: "Severe",
+            score: 1,
+          },
         ],
       },
 
       {
         id: "fatigue",
+
+        short: "Fatigue",
 
         icon: BatteryLow,
 
@@ -46,14 +61,27 @@ export const inflammationSections = [
         weight: 20,
 
         options: [
-          "None",
-          "Mild",
-          "Severe",
+          {
+            label: "None",
+            score: 3,
+          },
+
+          {
+            label: "Mild",
+            score: 2,
+          },
+
+          {
+            label: "Severe",
+            score: 1,
+          },
         ],
       },
 
       {
         id: "foodSensitivity",
+
+        short: "Sensitivity",
 
         icon: Utensils,
 
@@ -63,14 +91,27 @@ export const inflammationSections = [
         weight: 20,
 
         options: [
-          "None",
-          "Mild",
-          "Severe",
+          {
+            label: "None",
+            score: 3,
+          },
+
+          {
+            label: "Mild",
+            score: 2,
+          },
+
+          {
+            label: "Severe",
+            score: 1,
+          },
         ],
       },
 
       {
         id: "allergies",
+
+        short: "Allergies",
 
         icon: ShieldAlert,
 
@@ -80,14 +121,27 @@ export const inflammationSections = [
         weight: 20,
 
         options: [
-          "None",
-          "Mild",
-          "Severe",
+          {
+            label: "None",
+            score: 3,
+          },
+
+          {
+            label: "Mild",
+            score: 2,
+          },
+
+          {
+            label: "Severe",
+            score: 1,
+          },
         ],
       },
 
       {
         id: "recoverySpeed",
+
+        short: "Recovery",
 
         icon: RefreshCcw,
 
@@ -97,9 +151,20 @@ export const inflammationSections = [
         weight: 20,
 
         options: [
-          "Fast Recovery",
-          "Moderate Recovery",
-          "Slow Recovery",
+          {
+            label: "Fast Recovery",
+            score: 3,
+          },
+
+          {
+            label: "Moderate Recovery",
+            score: 2,
+          },
+
+          {
+            label: "Slow Recovery",
+            score: 1,
+          },
         ],
       },
     ],

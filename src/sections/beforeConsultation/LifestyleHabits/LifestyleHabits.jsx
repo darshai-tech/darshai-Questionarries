@@ -1,107 +1,153 @@
-// LifestyleHabits.jsx
+import {
+  useState,
+  useEffect,
+} from "react";
 
-import { useState } from "react";
+import AssessmentLayout from "../../../layouts/AssessmentLayout";
 
-import CategoryCard from "../../../components/questionnaire/CategoryCard";
+import PatientSidebar from "../../../components/questionnaire/PatientSidebar";
 
-import QuestionProgress from "../../../components/questionnaire/QuestionProgress";
+import WellnessSectionCard from "../../../components/questionnaire/WellnessSectionCard";
 
-import QuestionCard from "../../../components/questionnaire/QuestionCard";
-
-import QuestionOption from "../../../components/questionnaire/QuestionOption";
+import ExpandableQuestion from "../../../components/questionnaire/ExpandableQuestion";
 
 import { lifestyleHabitSections } from "./lifestyleHabitsData";
 
+import { patientFlowSections } from "../../../utils/patientFlowSections";
+
 const LifestyleHabits = ({
   onComplete,
+  activeQuestion,
+  onNavigate,
 }) => {
 
   const section =
     lifestyleHabitSections[0];
 
-  const [questionIndex, setQuestionIndex] =
-    useState(0);
-
   const [answers, setAnswers] =
     useState({});
 
-  const currentQuestion =
-    section.questions[questionIndex];
+  const [openQuestion, setOpenQuestion] =
+    useState(
+      activeQuestion ||
+      section.questions[0].id
+    );
 
-  const handleSelect = (option) => {
+  useEffect(() => {
 
-    const updatedAnswers = {
-      ...answers,
-      [currentQuestion.id]: option,
-    };
+    if (activeQuestion) {
 
-    setAnswers(updatedAnswers);
-
-    const isLastQuestion =
-      questionIndex ===
-      section.questions.length - 1;
-
-    if (!isLastQuestion) {
-
-      setQuestionIndex(
-        (prev) => prev + 1
-      );
-
-    } else {
-
-      onComplete?.(
-        updatedAnswers
+      setOpenQuestion(
+        activeQuestion
       );
     }
+
+  }, [activeQuestion]);
+
+  const handleSelect = (
+    questionId,
+    option
+  ) => {
+
+    const updated = {
+      ...answers,
+
+      [questionId]: {
+        label: option.label,
+        score: option.score,
+        weight:
+          section.questions.find(
+            (q) =>
+              q.id === questionId
+          )?.weight,
+      },
+    };
+
+    setAnswers(updated);
+
+    const currentIndex =
+      section.questions.findIndex(
+        (q) =>
+          q.id === questionId
+      );
+
+    const nextQuestion =
+      section.questions[
+        currentIndex + 1
+      ];
+
+    setTimeout(() => {
+
+      if (nextQuestion) {
+
+        setOpenQuestion(
+          nextQuestion.id
+        );
+
+      } else {
+
+        setOpenQuestion(null);
+      }
+
+    }, 300);
   };
 
   return (
 
-    <CategoryCard
-      title="Lifestyle & Compliance Assessment"
+    <AssessmentLayout
+      sidebar={
+        <PatientSidebar
+          sections={patientFlowSections}
+          activeSection="lifestyle"
+          activeQuestion={openQuestion}
+          answers={answers}
+          onNavigate={onNavigate}
+        />
+      }
     >
 
-      <QuestionProgress
-        current={questionIndex + 1}
-        total={
-          section.questions.length
-        }
-      />
-
-      <QuestionCard
-        question={
-          currentQuestion.question
-        }
-        icon={
-          currentQuestion.icon
-        }
+      <WellnessSectionCard
+        title={section.title}
+        subtitle={section.subtitle}
       >
 
-        <div className="space-y-4">
+        <div className="space-y-5">
 
-          {currentQuestion.options.map(
-            (option, index) => (
+          {section.questions.map((q) => (
 
-              <QuestionOption
-                key={index}
-                label={option}
-                selected={
-                  answers[
-                    currentQuestion.id
-                  ] === option
-                }
-                onClick={() =>
-                  handleSelect(option)
-                }
-              />
-            )
-          )}
+            <ExpandableQuestion
+              key={q.id}
+              icon={q.icon}
+              question={q.question}
+              options={q.options}
+              selected={answers[q.id]}
+              isOpen={openQuestion === q.id}
+              onOpen={() =>
+                setOpenQuestion(q.id)
+              }
+              onSelect={(option) =>
+                handleSelect(
+                  q.id,
+                  option
+                )
+              }
+            />
+          ))}
 
         </div>
 
-      </QuestionCard>
+        <button
+          onClick={() =>
+            onComplete?.(answers)
+          }
+          className="w-full mt-10 py-5 rounded-2xl text-lg font-semibold bg-gradient-to-r from-green-600 to-emerald-500 text-white shadow-lg shadow-green-200 hover:scale-[1.01] transition-all"
+        >
+          Continue
+        </button>
 
-    </CategoryCard>
+      </WellnessSectionCard>
+
+    </AssessmentLayout>
   );
 };
 

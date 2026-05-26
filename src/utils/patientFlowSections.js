@@ -1,6 +1,6 @@
 import { selfAssessmentSections } from "../sections/beforeConsultation/selfAssessment/selfAssessmentData";
 
-import { burnoutTabs } from "../sections/beforeConsultation/burnout/burnoutData";
+import { burnoutSections } from "../sections/beforeConsultation/burnout/burnoutData";
 
 import { metabolicSections } from "../sections/beforeConsultation/metabolic/metabolicData";
 
@@ -37,7 +37,7 @@ export const patientFlowSections = [
     title: "Burnout Assessment",  
 
     questions:
-      burnoutTabs[0]
+      burnoutSections[0]
         .questions,
   },
 

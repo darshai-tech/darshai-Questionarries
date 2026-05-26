@@ -17,13 +17,15 @@ import MetabolicAssessment from "../sections/beforeConsultation/metabolic/Metabo
 
 import NervousAssessment from "../sections/beforeConsultation/nervous/NervousAssessment";
 
-import EnviromentAssessment from "../sections/beforeConsultation/environment/EnvironmentAssessment";
+import EnvironmentAssessment from "../sections/beforeConsultation/environment/EnvironmentAssessment";
 
 import SelfAssessment from "../sections/beforeConsultation/selfAssessment/SelfAssessment";
 
 import LifestyleHabits from "../sections/beforeConsultation/LifestyleHabits/LifestyleHabits";
 
 import MentalEmotional from "../sections/beforeConsultation/mentalEmotional/MentalEmotional";
+
+import InflammationAssessment from "../sections/beforeConsultation/inflammation/InflammationAssessment";
 
 import Readiness from "../sections/beforeConsultation/readiness/Readiness";
 
@@ -95,7 +97,11 @@ const Assessment = () => {
       key: "digestive",
       sectionId: "digestive",
     },
-
+    {
+      component: InflammationAssessment,
+      key: "inflammation",
+      sectionId: "inflammation",
+    },
     {
       component: MetabolicAssessment,
       key: "metabolic",
@@ -109,11 +115,11 @@ const Assessment = () => {
     },
     
     {
-      component: EnviromentAssessment,
-      key: "environment",
-      sectionId: "environment",
-    },
-    
+  component: EnvironmentAssessment,
+  key: "environment",
+  sectionId: "environment",
+},
+
     {
       component: SelfAssessment,
       key: "selfAssessment",
@@ -127,11 +133,11 @@ const Assessment = () => {
       sectionId: "lifestyle",
     },
 
-    {
-      component: MentalEmotional,
-      key: "mentalEmotional",
-      sectionId: "mental",
-    },
+  {
+  component: MentalEmotional,
+  key: "mentalEmotional",
+  sectionId: "mentalEmotional",
+},
 
     {
       component: Readiness,
